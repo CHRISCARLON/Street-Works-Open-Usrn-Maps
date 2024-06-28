@@ -1,3 +1,5 @@
+# Makefile for git pushes
+
 DATE := $(shell date +%Y-%m-%d)
 
 all: add commit push

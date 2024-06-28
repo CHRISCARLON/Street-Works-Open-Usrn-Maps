@@ -79,7 +79,7 @@ def plot_map_london_future(geodf):
         colormap.caption = "Total Future Impact Score"
 
         # Use folium_static to display the map in Streamlit
-        return folium_static(m, width=1400, height=600)
+        return folium_static(m, width=1000, height=600)
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")

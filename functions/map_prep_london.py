@@ -51,7 +51,7 @@ def plot_map(geodf):
         # Create a color map based on the total "Acute & Legacy Impact Score"
         min_score = grouped_scores['Acute & Legacy Impact Score'].min()
         max_score = grouped_scores['Acute & Legacy Impact Score'].max()
-        colormap = LinearColormap(colors=['green', 'yellow', 'red'], vmin=float(min_score), vmax=float(max_score))
+        colormap = LinearColormap(colors=['green', 'yellow', 'red'], vmin=min_score, vmax=max_score)
 
         # Add geometries to the map
         for _, row in geodf.iterrows():

@@ -13,7 +13,6 @@ st.set_page_config(layout="wide")
 def impact_scores_map():
     # Set the titles of the page
     st.title("Impact Scores Grouped by USRN")
-    st.markdown("### This map shows where impact was most felt last month")
     st.markdown("#### Zoom into the map for more detail")
 
     # Get and process data
@@ -49,7 +48,6 @@ def impact_scores_map():
 def future_impact_scores_map():
     # Set the titles of the page
     st.title("Future Impact Scores Grouped by USRN")
-    st.markdown("### This map shows where impact will be most felt in the future")
     st.markdown("#### Zoom into the map for more detail")
 
     # Get and process data
@@ -85,7 +83,6 @@ def future_impact_scores_map():
 def wiltshire_map():
     # Set the page titles
     st.title("Wiltshire Activities Map")
-    st.markdown("### This map shows various activities in Wiltshire")
     st.markdown("#### Select activities and zoom into the map for more detail")
 
     # Get and process data

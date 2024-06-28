@@ -14,8 +14,8 @@ def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
     database = st.secrets["db"]
     token = st.secrets["token"]
 
-    if token or database is None:
-        raise ValueError("Env variables not present")
+    if token is None:
+        raise ValueError("Env variable not present")
 
     connection_string = f'md:{database}?motherduck_token={token}'
 

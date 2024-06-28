@@ -1,5 +1,5 @@
 import folium
-from streamlit_folium import st_folium
+from streamlit_folium import folium_static
 import osmnx as ox
 import geopandas as gpd
 import pandas as pd
@@ -8,7 +8,7 @@ def add_wiltshire_and_bristol_boundary(m):
     # Fetch Wiltshire and Bristol boundaries
     wiltshire = ox.geocode_to_gdf('Wiltshire, England')
     bristol = ox.geocode_to_gdf('Bristol, England')
-    
+
     # Combine the GeoDataFrames
     combined = gpd.GeoDataFrame(pd.concat([wiltshire, bristol], ignore_index=True))
 
@@ -21,22 +21,22 @@ def add_wiltshire_and_bristol_boundary(m):
 def plot_map_wiltshire(geodf, selected_activities):
     # Set Wiltshire coordinates
     wiltshire_coords = [51.0688, -1.8004]
-    
+
     # Create a map centered on Wiltshire
     m = folium.Map(location=wiltshire_coords, zoom_start=9)
-    
+
     # Add Wiltshire boundary
     add_wiltshire_and_bristol_boundary(m)
-    
+
     color_palette = [
         '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
         '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'
     ]
-    
+
     # Create a dictionary to map work activity types to colors
     activity_types = geodf['activity_type'].unique()
     color_dict = {activity: color_palette[i % len(color_palette)] for i, activity in enumerate(activity_types)}
-    
+
     # Add geometries to the map
     for _, row in geodf.iterrows():
         if row.geometry is not None and row['activity_type'] in selected_activities:
@@ -62,6 +62,6 @@ def plot_map_wiltshire(geodf, selected_activities):
                 },
                 tooltip=folium.Tooltip(tooltip_content)
             ).add_to(m)
-    
+
     # Use folium_static to display the map in Streamlit
-    st_folium(m, width=1000, height=600) 
+    folium_static(m, width=1000, height=600)

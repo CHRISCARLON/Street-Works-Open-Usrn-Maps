@@ -2,7 +2,7 @@ import folium
 import osmnx as ox
 import geopandas as gpd
 from branca.colormap import LinearColormap
-from streamlit_folium import st_folium
+from streamlit_folium import folium_static
 from loguru import logger
 
 def add_london_boundary(m):
@@ -79,7 +79,7 @@ def plot_map(geodf):
         colormap.caption = "Total Impact Score"
 
         # Use folium_static to display the map in Streamlit
-        return st_folium(m, width=1400, height=600)
+        return folium_static(m, width=1400, height=600)
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")

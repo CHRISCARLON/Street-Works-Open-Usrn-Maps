@@ -1,4 +1,4 @@
-# Makefile for git pushes
+# Makefile for simple tasks
 
 DATE := $(shell date +%Y-%m-%d)
 

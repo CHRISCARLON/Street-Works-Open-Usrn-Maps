@@ -1,19 +1,24 @@
 import duckdb
 import streamlit as st
 import pandas as pd
+import geopandas as gpd
 from loguru import logger
+from .geo_prep import convert_to_geodf
 
+@st.cache_resource
 def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
     """
     Create a database connection object
     """
-    # use st.secrets to pull env variables from yaml file
+
     database = st.secrets["db"]
     token = st.secrets["token"]
-    if token is None:
-        raise ValueError("MotherDuck token not found in environment variables")
+
+    if token or database is None:
+        raise ValueError("Env variables not present")
 
     connection_string = f'md:{database}?motherduck_token={token}'
+
     try:
         con = duckdb.connect(connection_string)
         return con
@@ -21,12 +26,14 @@ def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
         logger.warning(f"An error occured: {e}")
         raise
 
-def fetch_data_wiltshire(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
+@st.cache_data
+def fetch_data_wiltshire() -> gpd.GeoDataFrame:
     """
     Fetch df containing data
     """
-    # use st.secrets to pull env variables from yaml file
+
     try:
+        con = connect_to_motherduck()
         schema = st.secrets["schema"]
         table_name = st.secrets["table_name_wiltshire"]
 
@@ -36,7 +43,7 @@ def fetch_data_wiltshire(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         """
         result = con.execute(query)
         df = result.fetchdf()
-
+        df = convert_to_geodf(df)
         if df.empty:
             logger.warning("The Dataframe is empty")
         return df
@@ -54,12 +61,14 @@ def fetch_data_wiltshire(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         logger.error(f"An error occured: {e}")
         raise e
 
-def fetch_data_london(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
+@st.cache_data
+def fetch_data_london() -> gpd.GeoDataFrame:
     """
     Fetch df containing data
     """
-    # use st.secrets to pull env variables from yaml file
+
     try:
+        con = connect_to_motherduck()
         schema = st.secrets["schema"]
         table_name = st.secrets["table_name_london_impact"]
 
@@ -69,6 +78,7 @@ def fetch_data_london(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         """
         result = con.execute(query)
         df = result.fetchdf()
+        df = convert_to_geodf(df)
         if df.empty:
             logger.warning("The Dataframe is empty")
         return df
@@ -86,12 +96,14 @@ def fetch_data_london(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         logger.error(f"An error occured: {e}")
         raise e
 
-def fetch_data_london_future(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
+@st.cache_data
+def fetch_data_london_future() -> gpd.GeoDataFrame:
     """
     Fetch df containing data
     """
     # use st.secrets to pull env variables from yaml file
     try:
+        con = connect_to_motherduck()
         schema = st.secrets["schema"]
         table_name = st.secrets["table_name_london_impact_future"]
 
@@ -101,7 +113,7 @@ def fetch_data_london_future(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
         """
         result = con.execute(query)
         df = result.fetchdf()
-
+        df = convert_to_geodf(df)
         if df.empty:
             logger.warning("The Dataframe is empty")
         return df

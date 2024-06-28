@@ -1,7 +1,7 @@
 import streamlit as st
 import sys
 
-from functions.fetch_data import connect_to_motherduck, fetch_data_london, fetch_data_london_future, fetch_data_wiltshire
+from functions.fetch_data import fetch_data_london, fetch_data_london_future, fetch_data_wiltshire
 from functions.geo_prep import convert_to_geodf
 from functions.map_prep_london import plot_map
 from functions.map_prep_london_future import plot_map_london_future
@@ -16,9 +16,7 @@ def impact_scores_map():
     st.markdown("#### Zoom into the map for more detail")
 
     # Get and process data
-    conn = connect_to_motherduck()
-    data = fetch_data_london(conn)
-    geodf = convert_to_geodf(data)
+    geodf = fetch_data_london()
 
     # Get unique highway authorities
     highway_authorities = [''] + sorted(geodf['highway_authority'].unique().tolist())
@@ -51,9 +49,7 @@ def future_impact_scores_map():
     st.markdown("#### Zoom into the map for more detail")
 
     # Get and process data
-    conn = connect_to_motherduck()
-    geodf = fetch_data_london_future(conn)
-    geodf = convert_to_geodf(geodf)
+    geodf = fetch_data_london_future()
 
     # Get unique highway authorities
     highway_authorities = [''] + sorted(geodf['highway_authority'].unique().tolist())
@@ -86,9 +82,7 @@ def wiltshire_map():
     st.markdown("#### Select activities and zoom into the map for more detail")
 
     # Get and process data
-    conn = connect_to_motherduck()
-    geodf = fetch_data_wiltshire(conn)
-    geodf = convert_to_geodf(geodf)
+    geodf = fetch_data_wiltshire()
 
     # Get unique activity types
     activity_types = sorted(geodf['activity_type'].unique().tolist())

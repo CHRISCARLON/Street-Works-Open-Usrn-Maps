@@ -124,12 +124,9 @@ def main():
     Streamlit Application Launch
     """
     st.sidebar.title("Navigation")
-    selection = st.sidebar.radio("Go to", ["Home", "London Impact Scores Map", "London Future Impact Scores Map", "Wiltshire Example Map"])
+    selection = st.sidebar.radio("Go to", ["London Impact Scores Map", "London Future Impact Scores Map", "Wiltshire Example Map"])
 
-    if selection == "Home":
-        st.title("Home Page")
-        st.markdown("Use the sidebar to navigate between different maps.")
-    elif selection == "London Impact Scores Map":
+    if selection == "London Impact Scores Map":
         impact_scores_map()
     elif selection == "London Future Impact Scores Map":
         future_impact_scores_map()

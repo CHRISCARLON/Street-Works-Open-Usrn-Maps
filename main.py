@@ -1,11 +1,12 @@
 import streamlit as st
 import sys
+import pandas as pd
 
 from functions.fetch_data import fetch_data_london, fetch_data_london_future, fetch_data_wiltshire
 from functions.geo_prep import convert_to_geodf
 from functions.map_prep_london import plot_map
 from functions.map_prep_london_future import plot_map_london_future
-from functions.map_prep_wiltshire import plot_map_wiltshire
+from functions.map_prep_wiltshire import plot_map_wiltshire, table_prep_activity, table_prep_promoter, transform_datetime
 from loguru import logger
 
 st.set_page_config(layout="wide")
@@ -78,11 +79,43 @@ def future_impact_scores_map():
 
 def wiltshire_map():
     # Set the page titles
-    st.title("Wiltshire Activities Map")
-    st.markdown("#### Select activities and zoom into the map for more detail")
+    st.title("Wiltshire Street Work Activity Simplified Overview")
+    st.write("Reporting Period: Jan 2024 to May 2024")
+
+    st.markdown("""
+    #### What information does this page provide?
+
+    This page currently provides:
+    - A descriptive overview of street work activity in Wiltshire
+    - A method of visualising this street work activity
+
+    #### How could this page be improved?
+
+    In the future this page could:
+    - Incorporate extra information about a highway authority's road network including:
+        - Road type
+        - Length
+        - Width
+        - Speed limit
+        - Usage
+    - Use data from a larger time period - for example from 2020 to 2024(memory constraints on Streamlit's community cloud led me to only use 2024 data).
+    - Identify neglected areas and make suggestions about where highway improvements could take place in the future.
+    - Assign weightings to different types of street work and make assumptions about where the road network is being damaged the most due to:
+        - Open trenches
+        - Reinstatement
+    """)
 
     # Get and process data
     geodf = fetch_data_wiltshire()
+    geodf = transform_datetime(geodf)
+
+    st.markdown("""#### Simple Tables and Map:""")
+    # Create expanders for table preparation
+    with st.expander("Activity Table"):
+        table_prep_activity(geodf)
+
+    with st.expander("Promoter Table"):
+        table_prep_promoter(geodf)
 
     # Get unique activity types
     activity_types = sorted(geodf['activity_type'].unique().tolist())

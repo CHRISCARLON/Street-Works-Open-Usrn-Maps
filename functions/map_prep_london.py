@@ -29,13 +29,13 @@ def plot_map(geodf):
             raise TypeError("Input must be a GeoDataFrame")
 
         # Check if key columns exist
-        required_columns = ['usrn', 'Acute & Legacy Impact Score', 'street_name', 'geometry']
+        required_columns = ['usrn', 'total_impact_level', 'street_name', 'geometry']
         missing_columns = [col for col in required_columns if col not in geodf.columns]
         if missing_columns:
             raise ValueError(f"Missing key columns: {', '.join(missing_columns)}")
 
         # Group by USRN and calculate total "Acute & Legacy Impact Score"
-        grouped_scores = geodf.groupby('usrn')['Acute & Legacy Impact Score'].sum().reset_index()
+        grouped_scores = geodf.groupby('usrn')['total_impact_level'].sum().reset_index()
 
         # Merge the grouped scores back to the original geodataframe
         geodf = geodf.merge(grouped_scores, on='usrn', suffixes=('', '_total'))
@@ -50,14 +50,14 @@ def plot_map(geodf):
         add_london_boundary(m)
 
         # Create a color map based on the total "Acute & Legacy Impact Score"
-        min_score = grouped_scores['Acute & Legacy Impact Score'].min()
-        max_score = grouped_scores['Acute & Legacy Impact Score'].max()
+        min_score = grouped_scores['total_impact_level'].min()
+        max_score = grouped_scores['total_impact_level'].max()
         colormap = LinearColormap(colors=['green', 'yellow', 'red'], vmin=min_score, vmax=max_score)
 
         # Add geometries to the map
         for _, row in geodf.iterrows():
             if row.geometry is not None and not row.geometry.is_empty:
-                score = row['Acute & Legacy Impact Score_total']
+                score = row['total_impact_level']
                 color = colormap(score)
                 # Create tooltip content with new lines
                 tooltip_content = (

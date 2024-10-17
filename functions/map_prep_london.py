@@ -12,6 +12,7 @@ def add_london_boundary(m):
     """
     # Fetch London boundary
     london = ox.geocode_to_gdf('Greater London, England')
+
     # Add to map
     folium.GeoJson(
         london,

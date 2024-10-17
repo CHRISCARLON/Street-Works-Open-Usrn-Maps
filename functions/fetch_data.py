@@ -9,7 +9,6 @@ def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
     """
     Create a database connection object
     """
-
     database = st.secrets["db"]
     token = st.secrets["token"]
 
@@ -30,7 +29,6 @@ def fetch_data_london() -> gpd.GeoDataFrame:
     """
     Fetch df containing data
     """
-
     try:
         con = connect_to_motherduck()
         schema = st.secrets["schema"]

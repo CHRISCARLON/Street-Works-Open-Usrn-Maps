@@ -29,7 +29,7 @@ def impact_scores_map():
         st.info(f"Showing data for {selected_authority}")
 
         # Calculate total impact score
-        total_impact = filtered_geodf['Acute & Legacy Impact Score'].sum()
+        total_impact = filtered_geodf['total_impact_level'].sum()
 
         # Display the total impact score as text
         st.metric("Total Impact Score", f"{total_impact:.2f}")

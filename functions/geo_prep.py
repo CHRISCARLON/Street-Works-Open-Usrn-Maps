@@ -1,5 +1,4 @@
 import geopandas as gpd
-import streamlit as st
 import pandas as pd
 
 def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:

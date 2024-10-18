@@ -26,7 +26,7 @@ def impact_scores_map():
     # Filter the dataframe based on selected highway authority
     if selected_authority:
         filtered_geodf = geodf[geodf['highway_authority'] == selected_authority]
-        st.info(f"Showing data for {selected_authority} - there may be minor errors and we are fixing those")
+        st.info(f"Showing data for {selected_authority} - there may be minor errors and we are fixing those!")
 
         # Calculate total impact score
         total_impact = filtered_geodf['total_impact_level'].sum()

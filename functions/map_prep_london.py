@@ -49,17 +49,16 @@ def plot_map(geodf):
         # Add London boundary
         add_london_boundary(m)
 
-        # Create a color map based on the total "Acute & Legacy Impact Score"
-        min_score = grouped_scores['total_impact_level'].min()
-        max_score = grouped_scores['total_impact_level'].max()
+        # Create a color map based on the total "Acute & Legacy Impact Score" for the current subset
+        min_score = float(geodf['total_impact_level'].min())
+        max_score = float(geodf['total_impact_level'].max())
         colormap = LinearColormap(colors=['green', 'yellow', 'red'], vmin=min_score, vmax=max_score)
 
         # Add geometries to the map
         for _, row in geodf.iterrows():
             if row.geometry is not None and not row.geometry.is_empty:
-                score = row['total_impact_level']
+                score = float(row['total_impact_level'])
                 color = colormap(score)
-                # Create tooltip content with new lines
                 tooltip_content = (
                     f"USRN: {row['usrn']}<br>"
                     f"Street Name: {row['street_name']}<br>"

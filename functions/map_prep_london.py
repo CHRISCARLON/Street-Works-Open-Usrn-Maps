@@ -46,17 +46,11 @@ def plot_map_london(geodf):
 
         # Create a green color map
         colors = [
-            '#f7fbff',  # Almost white, faintest blue
-            '#eaf3fb',  # Very faint blue
-            '#deebf7',  # Pale blue
-            '#c6dbef',  # Light blue
-            '#9ecae1',  # Medium light blue
-            '#6baed6',  # Medium blue
-            '#4292c6',  # Bright medium blue
-            '#2171b5',  # Deep blue
-            '#08519c',  # Dark blue
-            '#083582',  # Very dark blue
-            '#051f4e'   # Extremely dark blue
+            '#91cf60',  # Light green
+            '#ffffbf',  # Pale yellow
+            '#fee08b',  # Light orange
+            '#fc8d59',  # Orange
+            '#d73027'   # Red
         ]
 
         # Calculate min and max scores for the current highway

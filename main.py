@@ -42,7 +42,7 @@ def impact_scores_map_london():
         # Plot map
         plot_map_london(filtered_geodf)
     else:
-        st.warning("Please select a highway authority to display the map.")
+        st.info("Please select a highway authority to display the map.")
 
 def impact_scores_map_england():
     """
@@ -81,7 +81,7 @@ def impact_scores_map_england():
         else:
             st.warning(f"No data available for {selected_authority}")
     else:
-        st.info("Please select a highway authority to view the data.")
+        st.info("Please select a highway authority to display the map.")
 
 def main():
     """

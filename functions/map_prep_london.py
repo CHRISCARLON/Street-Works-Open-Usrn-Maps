@@ -44,8 +44,8 @@ def plot_map(geodf):
         add_london_boundary(m)
 
         # Create a green color map
-        colors = ['#f0fff0', '#e6ffe6', '#ccffcc', '#b3ffb3', '#99ff99',
-                  '#80ff80', '#66ff66', '#4dff4d', '#33ff33', '#1aff1a', '#00ff00']
+        colors = ['#e6f3e6', '#c2e0c2', '#9fce9f', '#7cbc7c', '#ffcc80',
+                  '#ffb366', '#ff944d', '#ff7733', '#ff5500', '#e64d00', '#cc4400']
 
         # Calculate min and max scores for the current highway
         min_score = float(geodf['total_impact_level'].min())

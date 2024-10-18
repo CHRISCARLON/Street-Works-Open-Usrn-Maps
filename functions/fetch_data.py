@@ -100,3 +100,24 @@ def fetch_data_england(highway_authority: str) -> gpd.GeoDataFrame:
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         raise e
+
+@st.cache_data
+def fetch_highway_authorities_england() -> list[str]:
+    """
+    Fetch distinct highway authorities for England
+    """
+    try:
+        con = connect_to_motherduck()
+        schema = st.secrets["schema"]
+        table_name = st.secrets["table_name_england_impact"]
+        query = f"""
+        SELECT DISTINCT highway_authority
+        FROM {schema}.{table_name}
+        ORDER BY highway_authority
+        """
+        result = con.execute(query)
+        authorities = [row[0] for row in result.fetchall()]
+        return authorities
+    except Exception as e:
+        logger.error(f"An error occurred while fetching highway authorities: {e}")
+        raise e

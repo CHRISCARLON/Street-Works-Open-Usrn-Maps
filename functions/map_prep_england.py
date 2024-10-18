@@ -4,7 +4,7 @@ from branca.colormap import LinearColormap
 from streamlit_folium import folium_static
 from loguru import logger
 
-def plot_map(geodf):
+def plot_map_england(geodf):
     """
     Takes in a geodataframe for a specific highway and plots a folium map centered on the UK.
     Applies a colourmap so that roads are colored based on their total_impact_score.

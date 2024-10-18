@@ -18,7 +18,7 @@ def add_london_boundary(m):
         style_function=lambda x: {'fillColor': 'none', 'color': 'black', 'weight': 3}
     ).add_to(m)
 
-def plot_map(geodf):
+def plot_map_london(geodf):
     """
     Takes in a geodataframe for a specific highway and plots a folium map.
 

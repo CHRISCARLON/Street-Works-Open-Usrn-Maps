@@ -51,38 +51,46 @@ def impact_scores_map_england():
     st.title("England Impact Scores Grouped by USRN")
     st.markdown("#### Select a highway authority and zoom into the map for more detail 🔍")
 
-    # Fetch list of highway authorities
+    # Set a default highway authority
+    default_authority = "CITY OF WESTMINSTER"
+
     try:
-        # Fetch a small amount of data to get the list of highway authorities
-        sample_data = fetch_data_england('')
-        highway_authorities = [''] + sorted(sample_data['highway_authority'].unique().tolist())
+        # Fetch data for the default authority to get the list of all authorities
+        initial_data = fetch_data_england(default_authority)
+        highway_authorities = sorted(initial_data['highway_authority'].unique().tolist())
+
+        # Ensure the default authority is in the list and at the top
+        if default_authority in highway_authorities:
+            highway_authorities.remove(default_authority)
+        highway_authorities = [default_authority] + highway_authorities
+
     except Exception as e:
-        st.error(f"Error fetching highway authorities: {e}")
+        st.error(f"Error fetching initial data: {e}")
         return
 
     # Create a selectbox for highway authority
     selected_authority = st.selectbox(
         "Select Highway Authority",
         options=highway_authorities,
-        index=0
+        index=0  # This will select the default authority
     )
 
     # Fetch and process data for the selected highway authority
-    if selected_authority:
+    if selected_authority != default_authority:
         geodf = fetch_data_england(selected_authority)
-
-        if not geodf.empty:
-            st.info(f"Showing data for {selected_authority}")
-            # Calculate total impact score
-            total_impact = geodf['total_impact_level'].sum()
-            # Display the total impact score as text
-            st.metric("Total Impact Score", f"{total_impact:.2f}")
-            # Plot map
-            plot_map(geodf)
-        else:
-            st.warning(f"No data available for {selected_authority}")
     else:
-        st.warning("Please select a highway authority to display the map.")
+        geodf = initial_data
+
+    if not geodf.empty:
+        st.info(f"Showing data for {selected_authority}")
+        # Calculate total impact score
+        total_impact = geodf['total_impact_level'].sum()
+        # Display the total impact score as text
+        st.metric("Total Impact Score", f"{total_impact:.2f}")
+        # Plot map
+        plot_map(geodf)
+    else:
+        st.warning(f"No data available for {selected_authority}")
 
 def main():
     """

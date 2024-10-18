@@ -91,7 +91,7 @@ def main():
     # Select map logic
     if selection == "London Impact Scores Map":
         impact_scores_map_london()
-    elif selection == "England Imapct Scores Map":
+    elif selection == "England Impact Scores Map":
         impact_scores_map_england()
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 import geopandas as gpd
 import pandas as pd
 from shapely.geometry import LineString, MultiLineString
+from typing import Union, List, cast
 
 def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:
     """
@@ -11,12 +12,12 @@ def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:
         raise ValueError("Input DataFrame is None or empty")
     else:
         # Convert WKT to geometry, removing Z coordinate if present
-        def remove_z(geom):
-            if geom.has_z:
-                if isinstance(geom, LineString):
-                    return LineString([xy[0:2] for xy in geom.coords])
-                elif isinstance(geom, MultiLineString):
-                    return MultiLineString([remove_z(line) for line in geom.geoms])
+        def remove_z(geom: Union[LineString, MultiLineString]) -> Union[LineString, MultiLineString]:
+            if isinstance(geom, LineString):
+                return LineString([(x, y) for x, y, *_ in geom.coords])
+            elif isinstance(geom, MultiLineString):
+                lines = [remove_z(line) for line in geom.geoms]
+                return MultiLineString(cast(List[LineString], lines))
             return geom
 
         df['geometry'] = gpd.GeoSeries.from_wkt(df['geometry']).apply(remove_z)

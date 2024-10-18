@@ -7,16 +7,20 @@ from .geo_prep import convert_to_geodf
 @st.cache_resource
 def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
     """
-    Create a database connection object
+    Create a database connection object to MotherDuck
     """
+    # Define secrets
     database = st.secrets["db"]
     token = st.secrets["token"]
 
+    # Check if token exists
     if token is None:
         raise ValueError("Env variable not present")
 
+    # Connection string
     connection_string = f'md:{database}?motherduck_token={token}'
 
+    # Attempt connection
     try:
         con = duckdb.connect(connection_string)
         return con
@@ -27,13 +31,18 @@ def connect_to_motherduck() -> duckdb.DuckDBPyConnection:
 @st.cache_data
 def fetch_data_london() -> gpd.GeoDataFrame:
     """
-    Fetch df containing data
+    Fetch DataFrame containing data and convert to GeoDataFrame
     """
+
+    # Attempt connection and processing logic
     try:
         con = connect_to_motherduck()
+
+        # Define table and schema
         schema = st.secrets["schema"]
         table_name = st.secrets["table_name_london_impact"]
 
+        # Execute query and logic
         query = f"""
         SELECT *
         FROM {schema}.{table_name}

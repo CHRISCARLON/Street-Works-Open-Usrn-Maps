@@ -3,27 +3,31 @@ import streamlit as st
 from functions.fetch_data import fetch_data_london
 from functions.map_prep_london import plot_map
 
+# Set page config as wide by default
 st.set_page_config(layout="wide")
 
 def impact_scores_map():
-    # Set the titles of the page
+    """
+    Streamlit logic to fetch data and display map on page
+    """
+    # Set the page title
     st.title("London Impact Scores Grouped by USRN")
     st.markdown("#### Zoom into the map for more detail 🔍")
 
-    # Get and process data
+    # Fetch and process data
     geodf = fetch_data_london()
 
-    # Get unique highway authorities
+    # Get a list of unique highway authorities to use in drop down
     highway_authorities = [''] + sorted(geodf['highway_authority'].unique().tolist())
 
-    # Create a selectbox for highway authority
+    # Create a selectbox for highway authority using list created above
     selected_authority = st.selectbox(
         "Select Highway Authority",
         options=highway_authorities,
         index=0
     )
 
-    # Filter the dataframe based on selected highway authority
+    # Filter the dataframe based on the selected highway authority
     if selected_authority:
         filtered_geodf = geodf[geodf['highway_authority'] == selected_authority]
         st.info(f"Showing data for {selected_authority} - there may be minor errors and we are fixing those!")

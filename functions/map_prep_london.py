@@ -7,10 +7,9 @@ from loguru import logger
 
 def add_london_boundary(m):
     """
-    Takes in a folium map object
-    and adds the London boundary using osmnx
+    Takes in a folium map object and adds the London boundary using osmnx.
     """
-    # Fetch London boundary
+    # Fetch the London geo boundary
     london = ox.geocode_to_gdf('Greater London, England')
 
     # Add to map
@@ -21,14 +20,16 @@ def add_london_boundary(m):
 
 def plot_map(geodf):
     """
-    Takes in a geo-dataframe for a specific highway and plots folium map with a green color scheme
+    Takes in a geodataframe for a specific highway and plots a folium map.
+
+    Applies a colourmap so that roads are colored based on their totla_impact_score.
     """
     try:
         # Check if input is a GeoDataFrame
         if not isinstance(geodf, gpd.GeoDataFrame):
             raise TypeError("Input must be a GeoDataFrame")
 
-        # Check if key columns exist
+        # Check if required columns exist
         required_columns = ['usrn', 'total_impact_level', 'street_name', 'geometry']
         missing_columns = [col for col in required_columns if col not in geodf.columns]
         if missing_columns:

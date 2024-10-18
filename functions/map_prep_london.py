@@ -21,7 +21,7 @@ def add_london_boundary(m):
 
 def plot_map(geodf):
     """
-    Takes in a geo-dataframe and plots folium map
+    Takes in a geo-dataframe and plots folium map with a nuanced color scheme
     """
     try:
         # Check if input is a GeoDataFrame
@@ -49,10 +49,14 @@ def plot_map(geodf):
         # Add London boundary
         add_london_boundary(m)
 
+        # Create a more nuanced color map
+        colors = ['#00ff00', '#40ff00', '#80ff00', '#bfff00', '#ffff00',
+                  '#ffbf00', '#ff8000', '#ff4000', '#ff0000']
+
         # Create a color map based on the total "Acute & Legacy Impact Score" for the current subset
         min_score = float(geodf['total_impact_level'].min())
         max_score = float(geodf['total_impact_level'].max())
-        colormap = LinearColormap(colors=['green', 'yellow', 'red'], vmin=min_score, vmax=max_score)
+        colormap = LinearColormap(colors=colors, vmin=min_score, vmax=max_score)
 
         # Add geometries to the map
         for _, row in geodf.iterrows():

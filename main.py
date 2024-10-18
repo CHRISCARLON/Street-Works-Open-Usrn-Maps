@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 
 def impact_scores_map_london():
     """
-    Streamlit logic to fetch london data and display map on page
+    Streamlit logic to fetch all london data and display map on page
     """
     # Set the page title
     st.title("London Impact Scores Grouped by USRN")
@@ -45,38 +45,42 @@ def impact_scores_map_london():
 
 def impact_scores_map_england():
     """
-    Streamlit logic to fetch england data and display map on page
+    Streamlit logic to fetch England data for a specific highway authority and display map on page
     """
     # Set the page title
-    st.title("London Impact Scores Grouped by USRN")
-    st.markdown("#### Zoom into the map for more detail 🔍")
+    st.title("England Impact Scores Grouped by USRN")
+    st.markdown("#### Select a highway authority and zoom into the map for more detail 🔍")
 
-    # Fetch and process data
-    geodf = fetch_data_england()
+    # Fetch list of highway authorities
+    try:
+        # Fetch a small amount of data to get the list of highway authorities
+        sample_data = fetch_data_england('')
+        highway_authorities = [''] + sorted(sample_data['highway_authority'].unique().tolist())
+    except Exception as e:
+        st.error(f"Error fetching highway authorities: {e}")
+        return
 
-    # Get a list of unique highway authorities to use in drop down
-    highway_authorities = [''] + sorted(geodf['highway_authority'].unique().tolist())
-
-    # Create a selectbox for highway authority using list created above
+    # Create a selectbox for highway authority
     selected_authority = st.selectbox(
         "Select Highway Authority",
         options=highway_authorities,
         index=0
     )
 
-    # Filter the dataframe based on the selected highway authority
+    # Fetch and process data for the selected highway authority
     if selected_authority:
-        filtered_geodf = geodf[geodf['highway_authority'] == selected_authority]
-        st.info(f"Showing data for {selected_authority} - there may be minor errors and we are fixing those!")
+        geodf = fetch_data_england(selected_authority)
 
-        # Calculate total impact score
-        total_impact = filtered_geodf['total_impact_level'].sum()
-
-        # Display the total impact score as text
-        st.metric("Total Impact Score", f"{total_impact:.2f}")
-
-        # Plot map
-        plot_map(filtered_geodf)
+        if not geodf.empty:
+            st.info(f"Showing data for {selected_authority}")
+            # Calculate total impact score
+            total_impact = geodf['total_impact_level'].sum()
+            # Display the total impact score as text
+            st.metric("Total Impact Score", f"{total_impact:.2f}")
+            # Plot map
+            plot_map(geodf)
+        else:
+            st.warning(f"No data available for {selected_authority}")
     else:
         st.warning("Please select a highway authority to display the map.")
 

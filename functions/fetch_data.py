@@ -68,40 +68,35 @@ def fetch_data_london() -> gpd.GeoDataFrame:
         raise e
 
 @st.cache_data
-def fetch_data_england() -> gpd.GeoDataFrame:
+def fetch_data_england(highway_authority: str) -> gpd.GeoDataFrame:
     """
-    Fetch DataFrame containing data and convert to GeoDataFrame
+    Fetch DataFrame containing data for a specific highway authority and convert to GeoDataFrame
     """
-
     # Attempt connection and processing logic
     try:
         con = connect_to_motherduck()
-
         # Define table and schema
         schema = st.secrets["schema"]
         table_name = st.secrets["table_name_england_impact"]
-
         # Execute query and logic
         query = f"""
         SELECT *
         FROM {schema}.{table_name}
+        WHERE highway_authority = ?
         """
-        result = con.execute(query)
+        result = con.execute(query, [highway_authority])
         df = result.fetchdf()
         df = convert_to_geodf(df)
         if df.empty:
-            logger.warning("The Dataframe is empty")
+            logger.warning(f"The Dataframe is empty for highway authority: {highway_authority}")
         return df
-
     except KeyError as ke:
-            error_msg = f"Missing key in st.secrets: {ke}"
-            logger.error(error_msg)
-            raise ke
-
+        error_msg = f"Missing key in st.secrets: {ke}"
+        logger.error(error_msg)
+        raise ke
     except duckdb.Error as quack:
-        logger.error(f"A duckdb error occured: {quack}")
+        logger.error(f"A duckdb error occurred: {quack}")
         raise quack
-
     except Exception as e:
-        logger.error(f"An error occured: {e}")
+        logger.error(f"An error occurred: {e}")
         raise e

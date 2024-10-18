@@ -47,8 +47,6 @@ def plot_map_london(geodf):
         # Create a green color map
         colors = [
             '#91cf60',  # Light green
-            '#ffffbf',  # Pale yellow
-            '#fee08b',  # Light orange
             '#fc8d59',  # Orange
             '#d73027'   # Red
         ]

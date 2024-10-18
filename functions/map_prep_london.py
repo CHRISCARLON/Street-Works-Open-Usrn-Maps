@@ -21,7 +21,7 @@ def add_london_boundary(m):
 
 def plot_map(geodf):
     """
-    Takes in a geo-dataframe and plots folium map with a grey-orange-red color scheme
+    Takes in a geo-dataframe for a specific highway and plots folium map with a green color scheme
     """
     try:
         # Check if input is a GeoDataFrame
@@ -34,12 +34,6 @@ def plot_map(geodf):
         if missing_columns:
             raise ValueError(f"Missing key columns: {', '.join(missing_columns)}")
 
-        # Group by USRN and calculate total "Acute & Legacy Impact Score"
-        grouped_scores = geodf.groupby('usrn')['total_impact_level'].sum().reset_index()
-
-        # Merge the grouped scores back to the original geodataframe
-        geodf = geodf.merge(grouped_scores, on='usrn', suffixes=('', '_total'))
-
         # Set London coordinates
         london_coords = [51.5074, -0.1278]
 
@@ -49,13 +43,15 @@ def plot_map(geodf):
         # Add London boundary
         add_london_boundary(m)
 
-        # Create a grey-orange-red color map
-        colors = ['#f0f0f0', '#e6e6e6', '#dcdcdc', '#ffd699', '#ffcc80',
-                  '#ffb366', '#ff944d', '#ff7733', '#ff5500', '#e64d00', '#cc4400']
+        # Create a green color map
+        colors = ['#f0fff0', '#e6ffe6', '#ccffcc', '#b3ffb3', '#99ff99',
+                  '#80ff80', '#66ff66', '#4dff4d', '#33ff33', '#1aff1a', '#00ff00']
 
-        # Create a color map based on the total "Acute & Legacy Impact Score" for the current subset
+        # Calculate min and max scores for the current highway
         min_score = float(geodf['total_impact_level'].min())
         max_score = float(geodf['total_impact_level'].max())
+
+        # Create a color map based on the total "Acute & Legacy Impact Score" for the current highway
         colormap = LinearColormap(colors=colors, vmin=min_score, vmax=max_score)
 
         # Add geometries to the map
@@ -80,7 +76,7 @@ def plot_map(geodf):
 
         # Add a color legend
         colormap.add_to(m)
-        colormap.caption = "Total Impact Score"
+        colormap.caption = f"Total Impact Score (Range: {min_score:.2f} - {max_score:.2f})"
 
         # Use folium_static to display the map in Streamlit
         return folium_static(m, width=1000, height=600)

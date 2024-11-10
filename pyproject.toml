@@ -18,7 +18,7 @@ loguru = "0.7.2"
 ruff = "0.4.8"
 osmnx = "1.9.3"
 watchdog = "4.0.1"
-numpy = "2.0.0"
+numpy = "1.26.4"
 matplotlib = "3.9.0"
 
 

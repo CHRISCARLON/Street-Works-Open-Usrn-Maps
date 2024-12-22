@@ -66,6 +66,7 @@ def plot_map_london(geodf):
                 tooltip_content = (
                     f"USRN: {row['usrn']}<br>"
                     f"Street Name: {row['street_name']}<br>"
+                    f"UPRN Count: {row['uprn_count']}<br>"
                     f"<strong>Total Impact Score: {score:.2f}</strong>"
                 )
                 folium.GeoJson(

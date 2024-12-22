@@ -1,8 +1,10 @@
 import streamlit as st
+import pandas as pd
 
 from functions.fetch_data import fetch_data_london, fetch_data_england, fetch_highway_authorities_england
 from functions.map_prep_london import plot_map_london
 from functions.map_prep_england import plot_map_england
+from typing import List, Optional
 
 # Set page config as wide by default
 st.set_page_config(layout="wide")
@@ -13,13 +15,14 @@ def impact_scores_map_london():
     """
     # Set the page title
     st.title("London Impact Scores Grouped by USRN")
-    st.markdown("#### Zoom into the map for more detail 🔍")
+    st.markdown("#### Select a highway authority and zoom into the map for more detail 🔍")
 
     # Fetch and process data
     geodf = fetch_data_london()
 
     # Get a list of unique highway authorities to use in drop down
-    highway_authorities = [''] + sorted(geodf['highway_authority'].unique().tolist())
+    authorities: pd.Series[str] = geodf['highway_authority'].unique()
+    highway_authorities: List[str] = [''] + sorted(authorities.tolist())
 
     # Create a selectbox for highway authority using list created above
     selected_authority = st.selectbox(
@@ -52,6 +55,7 @@ def impact_scores_map_england():
     st.title("England Impact Scores Grouped by USRN")
     st.markdown("#### Select a highway authority and zoom into the map for more detail 🔍")
 
+    # Fetch and process data
     try:
         # Fetch the list of all highway authorities
         highway_authorities = fetch_highway_authorities_england()

@@ -57,7 +57,7 @@ def plot_map_england(geodf):
         # Display map using folium_static
         folium_static(m, width=1100, height=600)
 
-        # Rest of your code for street selection and permit details...
+        # Street selection and permit details
         col_select, col_details = st.columns([1, 2])
         with col_select:
             st.markdown("### For Details Please Select a Street")

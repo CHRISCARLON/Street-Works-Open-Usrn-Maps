@@ -1,56 +1,41 @@
 import folium
 import geopandas as gpd
+import streamlit as st
+from .fetch_data import fetch_permit_details_england
 from branca.colormap import LinearColormap
 from streamlit_folium import folium_static
 from loguru import logger
 
 def plot_map_england(geodf):
-    """
-    Takes in a geodataframe for a specific highway and plots a folium map centered on the UK.
-    Applies a colourmap so that roads are colored based on their total_impact_score.
-    """
     try:
-        # Check if input is a GeoDataFrame
         if not isinstance(geodf, gpd.GeoDataFrame):
             raise TypeError("Input must be a GeoDataFrame")
+            
+        # Get the highway authority from the geodataframe
+        highway_authority = geodf['highway_authority'].iloc[0]
+        
+        # Get the bounds of all geometries in the geodataframe
+        total_bounds = geodf.total_bounds
+        
+        # Create the map and set bounds to the highway authority area
+        m = folium.Map(tiles="cartodbpositron")
+        m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
 
-        # Check if required columns exist
-        required_columns = ['usrn', 'total_impact_level', 'street_name', 'geometry']
-        missing_columns = [col for col in required_columns if col not in geodf.columns]
-        if missing_columns:
-            raise ValueError(f"Missing key columns: {', '.join(missing_columns)}")
-
-        # Set UK coordinates (centered approximately on the UK)
-        uk_coords = [54.5, -4.0]
-
-        # Create a map centered on the UK
-        m = folium.Map(location=uk_coords, zoom_start=6, tiles="cartodbpositron")
-
-        # Create a green color map
-        colors = [
-            '#91cf60',  # Light green
-            '#fc8d59',  # Orange
-            '#d73027'   # Red
-        ]
-
-        # Calculate min and max scores for the current highway
+        # Create colormap for impact scores
         min_score = float(geodf['total_impact_level'].min())
         max_score = float(geodf['total_impact_level'].max())
+        colormap = LinearColormap(
+            colors=['#F5F5F5', '#fc8d59', '#d73027'],
+            vmin=min_score,
+            vmax=max_score,
+            caption=f"Total Impact Score (Range: {min_score:.2f} - {max_score:.2f})"
+        )
 
-        # Create a color map based on the total "Acute & Legacy Impact Score" for the current highway
-        colormap = LinearColormap(colors=colors, vmin=min_score, vmax=max_score)
-
-        # Add geometries to the map
+        # Add features to map
         for _, row in geodf.iterrows():
             if row.geometry is not None and not row.geometry.is_empty:
                 score = float(row['total_impact_level'])
                 color = colormap(score)
-                tooltip_content = (
-                    f"USRN: {row['usrn']}<br>"
-                    f"Street Name: {row['street_name']}<br>"
-                    f"UPRN Count: {row['uprn_count']}<br>"
-                    f"<strong>Total Impact Score: {score:.2f}</strong>"
-                )
                 folium.GeoJson(
                     row.geometry.__geo_interface__,
                     style_function=lambda x, color=color: {
@@ -58,15 +43,44 @@ def plot_map_england(geodf):
                         'weight': 3,
                         'opacity': 0.7
                     },
-                    tooltip=folium.Tooltip(tooltip_content)
+                    tooltip=folium.Tooltip(
+                        f"Street Name: {row['street_name']}<br>"
+                        f"USRN: {row['usrn']}<br>"
+                        f"UPRN Count: {row['uprn_count']}<br>"
+                        f"<strong>Total Impact Score: {score:.2f}</strong>"
+                    )
                 ).add_to(m)
 
-        # Add a color legend
+        # Add the colormap legend to the map
         colormap.add_to(m)
-        colormap.caption = f"Total Impact Score (Range: {min_score:.2f} - {max_score:.2f})"
 
-        # Use folium_static to display the map in Streamlit
-        return folium_static(m, width=1000, height=600)
+        # Display map using folium_static
+        folium_static(m, width=1100, height=600)
+
+        # Rest of your code for street selection and permit details...
+        col_select, col_details = st.columns([1, 2])
+        with col_select:
+            st.markdown("### For Details Please Select a Street")
+            street_usrn_map = geodf[['street_name', 'usrn']].drop_duplicates()
+            street_names = [''] + sorted(street_usrn_map['street_name'].unique().tolist())
+            selected_street = st.selectbox(
+                "Street Name",
+                options=street_names,
+                format_func=lambda x: x if x else "Select a Street"
+            )
+
+        if selected_street:
+            with col_details:
+                permit_details = fetch_permit_details_england(
+                    selected_street,
+                    highway_authority
+                )
+                permit_details = permit_details.drop("date_processed", axis=1)
+                if not permit_details.empty:
+                    st.subheader(f"Showing Permit Details for {selected_street}")
+                    st.dataframe(permit_details)
+                else:
+                    st.info(f"No permit details available for {selected_street}")
 
     except Exception as e:
         logger.error(f"Error occurred: {e}")

@@ -21,19 +21,19 @@ def impact_scores_map_england():
             options=[''] + highway_authorities,
             index=0
         )
-        
+
         if selected_authority:
             geodf = fetch_data_england(selected_authority)
             if not geodf.empty:
                 st.info(f"Showing data for {selected_authority}")
-                total_impact = geodf['total_impact_level'].sum()
+                total_impact = geodf['weighted_impact_level'].sum()
                 st.metric("Total Impact Score", f"{total_impact:.2f}")
                 plot_map_england(geodf)
             else:
                 st.warning(f"No data available for {selected_authority}")
         else:
             st.info("Please select a highway authority to display the map.")
-            
+
     except Exception as e:
         st.error(f"Error fetching data: {e}")
 

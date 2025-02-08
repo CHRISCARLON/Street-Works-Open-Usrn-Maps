@@ -10,13 +10,13 @@ def plot_map_england(geodf):
     try:
         if not isinstance(geodf, gpd.GeoDataFrame):
             raise TypeError("Input must be a GeoDataFrame")
-            
+
         # Get the highway authority from the geodataframe
         highway_authority = geodf['highway_authority'].iloc[0]
-        
+
         # Get the bounds of all geometries in the geodataframe
         total_bounds = geodf.total_bounds
-        
+
         # Create the map and set bounds to the highway authority area
         m = folium.Map(tiles="cartodbpositron")
         m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
@@ -34,7 +34,7 @@ def plot_map_england(geodf):
         # Add features to map
         for _, row in geodf.iterrows():
             if row.geometry is not None and not row.geometry.is_empty:
-                score = float(row['total_impact_level'])
+                score = float(row['weighted_impact_level'])
                 color = colormap(score)
                 folium.GeoJson(
                     row.geometry.__geo_interface__,

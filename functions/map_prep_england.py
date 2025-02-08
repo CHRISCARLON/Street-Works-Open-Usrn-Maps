@@ -22,8 +22,8 @@ def plot_map_england(geodf):
         m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
 
         # Create colormap for impact scores
-        min_score = float(geodf['total_impact_level'].min())
-        max_score = float(geodf['total_impact_level'].max())
+        min_score = float(geodf['weighted_impact_level'].min())
+        max_score = float(geodf['weighted_impact_level'].max())
         colormap = LinearColormap(
             colors=['#F5F5F5', '#fc8d59', '#d73027'],
             vmin=min_score,

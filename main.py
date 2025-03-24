@@ -12,7 +12,7 @@ def impact_scores_map_england():
     """
     st.title("Street Work Impact Scores")
     st.markdown("#### Select a Local Highway Authority from the list and zoom into the map for more detail 🔍")
-    st.markdown("##### Reorting Period: Jan 2025")
+    st.markdown("##### Reorting Period: Feb 2025")
 
     try:
         highway_authorities = fetch_highway_authorities_england()

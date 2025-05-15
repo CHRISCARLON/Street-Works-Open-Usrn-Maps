@@ -1,4 +1,6 @@
 import streamlit as st
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from functions.fetch_data import fetch_data_england, fetch_highway_authorities_england
 from functions.map_prep_england import plot_map_england
@@ -10,9 +12,14 @@ def impact_scores_map_england():
     """
     Streamlit logic to fetch england data and display map on page
     """
+
+    current_date = datetime.now()
+    previous_month = current_date - relativedelta(months=1)
+    reporting_period = previous_month.strftime("%B %Y")
+
     st.title("Street Work Impact Scores")
     st.markdown("#### Select a Local Highway Authority from the list and zoom into the map for more detail 🔍")
-    st.markdown("##### Reorting Period: Feb 2025")
+    st.markdown(f"##### Reorting Period: {reporting_period}")
 
     try:
         highway_authorities = fetch_highway_authorities_england()

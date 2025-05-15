@@ -1,0 +1,651 @@
+/* Neo-Brutalist Streamlit CSS with Sharper Monospace */
+
+/* Imported monospace font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap");
+
+/* Main container */
+.main .block-container {
+  padding: 2rem;
+  max-width: 1200px;
+  background-color: #f9f5eb;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+}
+
+/* Global monospace enforcement - SHARPER NERDY FONT */
+body,
+html,
+div,
+p,
+span,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+input,
+button,
+select,
+textarea,
+li,
+ul,
+ol,
+td,
+th,
+code,
+pre {
+  font-family: "IBM Plex Mono", "Roboto Mono", "Courier New", monospace !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-smooth: never !important;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 6px solid #e97451;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 6px solid #7b9ebd;
+  padding-left: 1rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.8rem;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #f0c05a;
+}
+
+p,
+ol,
+ul,
+dl {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #000;
+}
+
+a {
+  color: #e97451;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 3px solid #e97451;
+}
+
+a:hover {
+  background-color: #e97451;
+  color: white;
+}
+
+/* Mono text specific */
+code,
+pre,
+.monospace,
+.mono {
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+}
+
+/* Enforce monospace in markdown */
+.stMarkdown * {
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+}
+
+/* Sidebar styling */
+.sidebar .sidebar-content {
+  background-color: #7b9ebd;
+  padding: 1.5rem;
+  border: 4px solid #000;
+  color: white !important;
+}
+
+.sidebar h1,
+.sidebar h2,
+.sidebar h3,
+.sidebar p,
+.sidebar div,
+.sidebar span,
+.sidebar a,
+.sidebar li {
+  color: white !important;
+}
+
+/* Form Elements */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stDateInput > div > div > input,
+.stTextArea > div > div > textarea {
+  border-radius: 0;
+  border: 3px solid #000;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  background-color: #fff;
+  box-shadow: 4px 4px 0px #000;
+  letter-spacing: 0;
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus,
+.stDateInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+  border-color: #e97451;
+  outline: none;
+  box-shadow: 4px 4px 0px #e97451;
+}
+
+/* Buttons */
+.stButton > button {
+  border-radius: 0;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: #f0c05a;
+  color: #000;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  text-transform: uppercase;
+  transition: all 0.1s ease-in-out;
+  letter-spacing: 0;
+}
+
+.stButton > button:hover {
+  background-color: #000;
+  color: #f0c05a;
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+.stButton > button:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+/* Completely fixed Selectbox styling with WHITE TEXT */
+.stSelectbox > div {
+  border-radius: 0;
+}
+
+.stSelectbox > div > div {
+  border-radius: 0;
+  border: 3px solid #000;
+  background-color: white;
+  box-shadow: 4px 4px 0px #000;
+  min-height: 50px; /* Ensure minimum height */
+}
+
+.stSelectbox > div > div > div {
+  display: flex;
+  align-items: center;
+}
+
+.stSelectbox > div > div > div:first-child {
+  padding: 0.8rem;
+  letter-spacing: 0;
+}
+
+/* Fix text truncation in selectbox */
+.stSelectbox div[data-baseweb="select"] {
+  height: auto;
+}
+
+.stSelectbox div[data-baseweb="select"] > div {
+  height: auto;
+  min-height: 40px;
+  white-space: normal !important;
+}
+
+.stSelectbox div[data-baseweb="select"] span {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+/* Enhanced monospace in selectbox dropdown options */
+.stSelectbox div[data-baseweb="select"] ul li {
+  letter-spacing: 0;
+}
+
+/* Dropdown options styling */
+div[data-baseweb="popover"] {
+  z-index: 999 !important;
+}
+
+div[data-baseweb="popover"] div[data-baseweb="menu"] {
+  background-color: white;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  padding: 0;
+}
+
+div[data-baseweb="select"] ul {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+div[data-baseweb="select"] li {
+  padding: 10px !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
+  min-height: 20px !important;
+  letter-spacing: 0;
+}
+
+div[data-baseweb="select"] li:hover {
+  background-color: #f0c05a !important;
+}
+
+/* Selected option within the selectbox */
+div[data-baseweb="value-container"] {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+/* Increase size of the dropdown button and container */
+div[data-baseweb="select"] [role="button"] {
+  padding-right: 32px !important;
+}
+
+div[data-baseweb="select"] [role="button"] div {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+/* Checkbox */
+.stCheckbox > div > label > div {
+  border-radius: 0;
+  border: 3px solid #000;
+}
+
+/* Dataframe/Table */
+.stDataFrame,
+.dataframe {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0px #000;
+}
+
+.stDataFrame th,
+.dataframe th {
+  background-color: #7b9ebd;
+  color: white !important;
+  font-weight: 700;
+  text-align: left;
+  padding: 1rem;
+  border: 2px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.stDataFrame td,
+.dataframe td {
+  padding: 1rem;
+  border: 2px solid #000;
+  letter-spacing: 0;
+}
+
+.stDataFrame tr:nth-child(even),
+.dataframe tr:nth-child(even) {
+  background-color: #e0e0e0;
+}
+
+.stDataFrame tr:hover,
+.dataframe tr:hover {
+  background-color: #f0c05a;
+}
+
+/* Chat interface styling */
+.chat-message {
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0px #000;
+}
+
+.chat-message.user {
+  background-color: #7b9ebd;
+  color: white !important;
+  margin-left: 2rem;
+  border-top-left-radius: 0;
+}
+
+.chat-message.user * {
+  color: white !important;
+}
+
+.chat-message.assistant {
+  background-color: #e97451;
+  color: white !important;
+  margin-right: 2rem;
+  border-top-right-radius: 0;
+}
+
+.chat-message.assistant * {
+  color: white !important;
+}
+
+.chat-message .content {
+  display: inline-block;
+  padding: 0.5rem 0;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+
+.chat-message .avatar {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #000;
+  margin-right: 1rem;
+}
+
+.chat-message .message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.chat-message .message-header .name {
+  font-weight: 700;
+  margin-right: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.chat-message .message-header .timestamp {
+  letter-spacing: 0;
+  font-weight: bold;
+}
+
+/* Map container styling */
+.folium-map {
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  margin-bottom: 1.5rem;
+}
+
+/* Metrics styling */
+.stMetric {
+  background-color: #f0c05a;
+  padding: 1.2rem;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  transition: transform 0.1s ease-in-out;
+}
+
+.stMetric:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px #000;
+}
+
+.stMetric .metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.stMetric .metric-label {
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0;
+}
+
+/* Expander styling */
+.streamlit-expander {
+  border: 3px solid #000;
+  margin-bottom: 1.5rem;
+  box-shadow: 6px 6px 0px #000;
+}
+
+.streamlit-expander .streamlit-expanderHeader {
+  font-weight: 700;
+  padding: 1rem;
+  background-color: #7b9ebd;
+  color: white !important;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.streamlit-expander .streamlit-expanderContent {
+  padding: 1.2rem;
+  background-color: #f9f5eb;
+}
+
+/* Info/warning boxes - FIXED WHITE TEXT */
+.info-box {
+  background-color: #7b9ebd;
+  border: 3px solid #000;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 6px 6px 0px #000;
+  color: white !important;
+  letter-spacing: 0;
+}
+
+.info-box * {
+  color: white !important;
+}
+
+.warning-box {
+  background-color: #f0c05a;
+  border: 3px solid #000;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 6px 6px 0px #000;
+  color: #000 !important;
+  letter-spacing: 0;
+}
+
+.error-box {
+  background-color: #e97451;
+  border: 3px solid #000;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 6px 6px 0px #000;
+  color: white !important;
+  letter-spacing: 0;
+}
+
+.error-box * {
+  color: white !important;
+}
+
+/* Fixing Streamlit's built-in info/error/warning boxes */
+.element-container .stAlert {
+  background-color: transparent;
+  border: none;
+}
+
+.element-container .stAlert > div {
+  border: 3px solid #000 !important;
+  box-shadow: 6px 6px 0px #000 !important;
+  border-radius: 0 !important;
+  padding: 1rem !important;
+}
+
+.element-container .stAlert.info > div {
+  background-color: #7b9ebd !important;
+}
+
+.element-container .stAlert.info > div > * {
+  color: white !important;
+}
+
+.element-container .stAlert.warning > div {
+  background-color: #f0c05a !important;
+}
+
+.element-container .stAlert.error > div {
+  background-color: #e97451 !important;
+}
+
+.element-container .stAlert.error > div > * {
+  color: white !important;
+}
+
+/* Custom styling for map application */
+.impact-score-high {
+  color: #e97451;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+.impact-score-medium {
+  color: #f0c05a;
+  font-weight: 700;
+}
+
+.impact-score-low {
+  color: #7b9ebd;
+  font-weight: 700;
+}
+
+/* Tooltip customization for the map */
+.leaflet-tooltip {
+  background-color: #f0c05a;
+  border: 3px solid #000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0px #000;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0;
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+}
+
+/* Progress bar */
+.stProgress > div > div > div {
+  background-color: #7b9ebd !important;
+  height: 20px !important;
+}
+
+.stProgress > div > div {
+  background-color: #e0e0e0 !important;
+  border: 2px solid #000 !important;
+}
+
+/* Multiselect specific fixes */
+div[data-baseweb="multi-select"] {
+  height: auto;
+  min-height: 40px;
+}
+
+div[data-baseweb="multi-select"] span {
+  line-height: 1.4;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  letter-spacing: 0;
+}
+
+div[data-baseweb="multi-select"] [data-testid="stMultiSelect"] {
+  height: auto;
+  min-height: 40px;
+}
+
+/* Force monospace in radio buttons and checkboxes */
+.stRadio label,
+.stCheckbox label {
+  letter-spacing: 0;
+}
+
+/* Footer monospace */
+footer,
+footer a,
+.viewerBadge,
+.viewerBadge a {
+  letter-spacing: 0 !important;
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+}
+
+/* Text input placeholders */
+::placeholder {
+  letter-spacing: 0 !important;
+  font-family: "IBM Plex Mono", "Roboto Mono", monospace !important;
+}
+
+/* Slider text */
+.stSlider div[data-baseweb="slider"] div {
+  letter-spacing: 0;
+}
+
+/* Removing text anti-aliasing for sharper monospace */
+* {
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-smooth: never !important;
+}
+
+/* Fixed text color in blue elements */
+[style*="background-color: rgb(123, 158, 189)"],
+[style*="background-color: #7B9EBD"],
+.element-container [style*="background-color: rgb(123, 158, 189)"] * {
+  color: white !important;
+}
+
+/* Fixed alert styling */
+.stAlert {
+  border-radius: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main .block-container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .chat-message.user,
+  .chat-message.assistant {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .stButton > button,
+  .stTextInput > div > div > input,
+  .stSelectbox > div > div {
+    box-shadow: 3px 3px 0px #000;
+  }
+}

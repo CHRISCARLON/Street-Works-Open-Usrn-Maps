@@ -8,6 +8,13 @@ from functions.map_prep_england import plot_map_england
 # Set page config as wide by default
 st.set_page_config(layout="wide")
 
+def load_css(css_file):
+    with open(css_file) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Load custom CSS
+load_css(".streamlit/style.css") 
+
 def impact_scores_map_england():
     """
     Streamlit logic to fetch england data and display map on page
@@ -17,7 +24,7 @@ def impact_scores_map_england():
     previous_month = current_date - relativedelta(months=1)
     reporting_period = previous_month.strftime("%B %Y")
 
-    st.title("Street Work Impact Scores")
+    st.title("Street Work Impact Scores 🏴󠁧󠁢󠁥󠁮󠁧󠁿")
     st.markdown("#### Select a Local Highway Authority from the list and zoom into the map for more detail 🔍")
     st.markdown(f"##### Reorting Period: {reporting_period}")
 

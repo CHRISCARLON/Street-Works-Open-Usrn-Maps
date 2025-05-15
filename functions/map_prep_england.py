@@ -55,12 +55,12 @@ def plot_map_england(geodf):
         colormap.add_to(m)
 
         # Display map using folium_static
-        folium_static(m, width=1100, height=600)
+        folium_static(m, width=1350, height=600)
 
         # Street selection and permit details
         col_select, col_details = st.columns([1, 2])
         with col_select:
-            st.markdown("### For Details Please Select a Street")
+            st.markdown("For Details Please Select a Street")
             street_usrn_map = geodf[['street_name', 'usrn']].drop_duplicates()
             street_names = [''] + sorted(street_usrn_map['street_name'].unique().tolist())
             selected_street = st.selectbox(
@@ -77,7 +77,7 @@ def plot_map_england(geodf):
                 )
                 permit_details = permit_details.drop("date_processed", axis=1)
                 if not permit_details.empty:
-                    st.subheader(f"Showing Permit Details for {selected_street}")
+                    st.markdown(f"Showing Permit Details for {selected_street}")
                     st.dataframe(permit_details)
                 else:
                     st.info(f"No permit details available for {selected_street}")

@@ -22,8 +22,8 @@ def plot_map_england(geodf):
         m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
 
         # Create colormap for impact scores
-        min_score = float(geodf['weighted_impact_level'].min())
-        max_score = float(geodf['weighted_impact_level'].max())
+        min_score = float(geodf['weighted_impact_level'].min()) # type: ignore
+        max_score = float(geodf['weighted_impact_level'].max()) # type: ignore
         colormap = LinearColormap(
             colors=['#F5F5F5', '#fc8d59', '#d73027'],
             vmin=min_score,
@@ -54,8 +54,8 @@ def plot_map_england(geodf):
         # Add the colormap legend to the map
         colormap.add_to(m)
 
-        # Display map using folium_static
-        folium_static(m, width=1350, height=600)
+        # Display map using folium_static - responsive width
+        folium_static(m, width=None, height=600)
 
         # Street selection and permit details
         col_select, col_details = st.columns([1, 2])
@@ -73,7 +73,7 @@ def plot_map_england(geodf):
             with col_details:
                 permit_details = fetch_permit_details_england(
                     selected_street,
-                    highway_authority
+                    highway_authority # type: ignore
                 )
                 permit_details = permit_details.drop("date_processed", axis=1)
                 if not permit_details.empty:

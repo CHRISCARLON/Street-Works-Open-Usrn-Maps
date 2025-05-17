@@ -25,7 +25,7 @@ def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:
         df['geometry'] = gpd.GeoSeries.from_wkt(df['geometry']).apply(remove_z)
 
         # Create GeoDataFrame and ensure correct crs
-        geodf = gpd.GeoDataFrame(df, geometry='geometry', crs="EPSG:27700")
+        geodf = gpd.GeoDataFrame(df, geometry='geometry', crs="EPSG:27700") # type: ignore
 
         # Convert to EPSG:4326
         geodf = geodf.to_crs(epsg=4326)

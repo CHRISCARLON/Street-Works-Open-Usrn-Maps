@@ -25,7 +25,7 @@ def plot_map_england(geodf):
         min_score = float(geodf['weighted_impact_level'].min()) # type: ignore
         max_score = float(geodf['weighted_impact_level'].max()) # type: ignore
         colormap = LinearColormap(
-            colors=['#F5F5F5', '#fc8d59', '#d73027'],
+            colors=['#F5F5F5', '#74add1', '#313695'],
             vmin=min_score,
             vmax=max_score,
             caption=f"Total Impact Score (Range: {min_score:.2f} - {max_score:.2f})"
@@ -33,23 +33,34 @@ def plot_map_england(geodf):
 
         # Add features to map
         for _, row in geodf.iterrows():
-            if row.geometry is not None and not row.geometry.is_empty:
-                score = float(row['weighted_impact_level'])
-                color = colormap(score)
-                folium.GeoJson(
-                    row.geometry.__geo_interface__,
-                    style_function=lambda x, color=color: {
-                        'color': color,
-                        'weight': 3,
-                        'opacity': 0.7
-                    },
-                    tooltip=folium.Tooltip(
-                        f"Street Name: {row['street_name']}<br>"
-                        f"USRN: {row['usrn']}<br>"
-                        f"UPRN Count: {row['uprn_count']}<br>"
-                        f"<strong>Total Impact Score: {score:.2f}</strong>"
-                    )
-                ).add_to(m)
+                if row.geometry is not None and not row.geometry.is_empty:
+                    score = float(row['weighted_impact_level'])
+                    color = colormap(score)
+                    
+                    # Calculate line weight based on score
+                    min_weight = 1
+                    max_weight = 8
+                    normalized_weight = min_weight + ((score - min_score) / (max_score - min_score)) * (max_weight - min_weight)
+                    
+                    # Calculate opacity based on score
+                    min_opacity = 0.2
+                    max_opacity = 1
+                    normalized_opacity = min_opacity + ((score - min_score) / (max_score - min_score)) * (max_opacity - min_opacity)
+                    
+                    folium.GeoJson(
+                        row.geometry.__geo_interface__,
+                        style_function=lambda x, color=color, weight=normalized_weight, opacity=normalized_opacity: {
+                            'color': color,
+                            'weight': weight,
+                            'opacity': opacity
+                        },
+                        tooltip=folium.Tooltip(
+                            f"Street Name: {row['street_name']}<br>"
+                            f"USRN: {row['usrn']}<br>"
+                            f"UPRN Count: {row['uprn_count']}<br>"
+                            f"<strong>Total Impact Score: {score:.2f}</strong>"
+                        )
+                    ).add_to(m)
 
         # Add the colormap legend to the map
         colormap.add_to(m)

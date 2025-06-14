@@ -24,7 +24,7 @@ def impact_scores_map_england():
     previous_month = current_date - relativedelta(months=1)
     reporting_period = previous_month.strftime("%B %Y")
 
-    st.title("Street Work Impact Scores 🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+    st.title("Street Work Weighted Impact Scores")
     st.markdown("#### Select a Local Highway Authority from the list and zoom into the map for more detail 🔍")
     st.markdown(f"##### Reorting Period: {reporting_period}")
 

@@ -25,12 +25,12 @@ def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:
         df['geometry'] = gpd.GeoSeries.from_wkt(df['geometry']).apply(remove_z)
 
         # Create GeoDataFrame and ensure correct crs
-        geodf = gpd.GeoDataFrame(df, geometry='geometry', crs="EPSG:27700") # type: ignore
+        geodf = gpd.GeoDataFrame(df, geometry='geometry', crs="EPSG:27700")
 
         # Convert to EPSG:4326
         geodf = geodf.to_crs(epsg=4326)
 
         # Assert that data is a GeoDataFrame and that CRS is correct
         assert isinstance(geodf, gpd.GeoDataFrame)
-        assert geodf.crs.to_epsg() == 4326
+        assert geodf.crs is not None and geodf.crs.to_epsg() == 4326
         return geodf

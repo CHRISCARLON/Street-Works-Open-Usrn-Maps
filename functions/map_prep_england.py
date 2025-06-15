@@ -1,6 +1,7 @@
 import folium
 import geopandas as gpd
 import streamlit as st
+import pandas as pd
 from .fetch_data import fetch_permit_details_england
 from branca.colormap import LinearColormap
 from streamlit_folium import folium_static
@@ -22,8 +23,9 @@ def plot_map_england(geodf):
         m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
 
         # Create colormap for impact scores
-        min_score = float(geodf['weighted_impact_level'].min()) # type: ignore
-        max_score = float(geodf['weighted_impact_level'].max()) # type: ignore
+        min_score = float(geodf['weighted_impact_level'].min())
+        max_score = float(geodf['weighted_impact_level'].max())
+
         colormap = LinearColormap(
             colors=['#F5F5F5', '#74add1', '#313695'],
             vmin=min_score,
@@ -36,17 +38,17 @@ def plot_map_england(geodf):
                 if row.geometry is not None and not row.geometry.is_empty:
                     score = float(row['weighted_impact_level'])
                     color = colormap(score)
-                    
+
                     # Calculate line weight based on score
                     min_weight = 1
                     max_weight = 8
                     normalized_weight = min_weight + ((score - min_score) / (max_score - min_score)) * (max_weight - min_weight)
-                    
+
                     # Calculate opacity based on score
                     min_opacity = 0.2
                     max_opacity = 1
                     normalized_opacity = min_opacity + ((score - min_score) / (max_score - min_score)) * (max_opacity - min_opacity)
-                    
+
                     folium.GeoJson(
                         row.geometry.__geo_interface__,
                         style_function=lambda x, color=color, weight=normalized_weight, opacity=normalized_opacity: {
@@ -73,7 +75,7 @@ def plot_map_england(geodf):
         with col_select:
             st.markdown("For Details Please Select a Street")
             street_usrn_map = geodf[['street_name', 'usrn']].drop_duplicates()
-            street_names = [''] + sorted(street_usrn_map['street_name'].unique().tolist())
+            street_names = [''] + sorted(pd.Series(street_usrn_map['street_name']).unique().tolist())
             selected_street = st.selectbox(
                 "Street Name",
                 options=street_names,
@@ -84,7 +86,7 @@ def plot_map_england(geodf):
             with col_details:
                 permit_details = fetch_permit_details_england(
                     selected_street,
-                    highway_authority # type: ignore
+                    highway_authority
                 )
                 permit_details = permit_details.drop("date_processed", axis=1)
                 if not permit_details.empty:

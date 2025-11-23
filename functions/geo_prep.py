@@ -22,7 +22,7 @@ def convert_to_geodf(df: pd.DataFrame) -> gpd.GeoDataFrame:
             return geom
 
         # Isolate geometry column and apply the Z coordinate removal
-        df['geometry'] = gpd.GeoSeries.from_wkt(df['geometry']).apply(remove_z)
+        df['geometry'] = gpd.GeoSeries.from_wkt(df['geometry']).apply(remove_z) # type: ignore
 
         # Create GeoDataFrame and ensure correct crs
         geodf = gpd.GeoDataFrame(df, geometry='geometry', crs="EPSG:27700")

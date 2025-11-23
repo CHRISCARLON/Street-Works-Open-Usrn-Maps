@@ -24,7 +24,7 @@ def impact_scores_map_england():
     previous_month = current_date - relativedelta(months=1)
     reporting_period = previous_month.strftime("%B %Y")
 
-    st.title("Street Work Weighted Impact Scores")
+    st.title("Street Work Total Impact Scores")
     st.markdown("#### Select a Local Highway Authority from the list and zoom into the map for more detail 🔍")
     st.markdown(f"##### Reorting Period: {reporting_period}")
 
@@ -40,7 +40,7 @@ def impact_scores_map_england():
             geodf = fetch_data_england(selected_authority)
             if not geodf.empty:
                 st.info(f"Showing data for {selected_authority}")
-                total_impact = geodf['weighted_impact_level'].sum()
+                total_impact = geodf['total_impact_level'].sum()
                 st.metric("Total Impact Score", f"{total_impact:.2f}")
                 plot_map_england(geodf)
             else:

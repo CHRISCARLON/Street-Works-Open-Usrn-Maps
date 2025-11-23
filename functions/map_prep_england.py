@@ -23,8 +23,8 @@ def plot_map_england(geodf):
         m.fit_bounds([[total_bounds[1], total_bounds[0]], [total_bounds[3], total_bounds[2]]])
 
         # Create colormap for impact scores
-        min_score = float(geodf['weighted_impact_level'].min())
-        max_score = float(geodf['weighted_impact_level'].max())
+        min_score = float(geodf['total_impact_level'].min())
+        max_score = float(geodf['total_impact_level'].max())
 
         colormap = LinearColormap(
             colors=['#F5F5F5', '#74add1', '#313695'],
@@ -36,7 +36,7 @@ def plot_map_england(geodf):
         # Add features to map
         for _, row in geodf.iterrows():
                 if row.geometry is not None and not row.geometry.is_empty:
-                    score = float(row['weighted_impact_level'])
+                    score = float(row['total_impact_level'])
                     color = colormap(score)
 
                     # Calculate line weight based on score
